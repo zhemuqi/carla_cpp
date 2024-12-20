@@ -103,12 +103,12 @@ FLinearColor ATagger::GetActorLabelColor(const AActor &Actor, const crp::CityObj
 
 void ATagger::TagActor(const AActor &Actor, bool bTagForSemanticSegmentation)
 {
-#ifdef CARLA_TAGGER_EXTRA_LOG
+#ifdef CARLA_TAGGER_EXTRA_LOG//定义了CARLA_TAGGER_EXTRA_LOG宏时，输出额外的日志信息。这有助于调试和跟踪程序的行为。
   UE_LOG(LogCarla, Log, TEXT("Actor: %s"), *Actor.GetName());
 #endif // CARLA_TAGGER_EXTRA_LOG
 
   // Iterate static meshes.
-  TArray<UStaticMeshComponent *> StaticMeshComponents;
+  TArray<UStaticMeshComponent *> StaticMeshComponents;//定义了一个UStaticMeshComponent指针数组，用于存储Actor中的所有静态网格组件。
   Actor.GetComponents<UStaticMeshComponent>(StaticMeshComponents);
   for (UStaticMeshComponent *Component : StaticMeshComponents) {
     auto Label = GetLabelByPath(Component->GetStaticMesh());
@@ -117,7 +117,7 @@ void ATagger::TagActor(const AActor &Actor, bool bTagForSemanticSegmentation)
     {
       Label = crp::CityObjectLabel::Rider;
     }
-    SetStencilValue(*Component, Label, bTagForSemanticSegmentation);
+    SetStencilValue(*Component, Label, bTagForSemanticSegmentation);//根据标签和是否用于语义分割的标志，为每个组件设置模板值。这通常用于渲染过程中，以便区分不同的对象类别
 #ifdef CARLA_TAGGER_EXTRA_LOG
     UE_LOG(LogCarla, Log, TEXT("  + StaticMeshComponent: %s"), *Component->GetName());
     UE_LOG(LogCarla, Log, TEXT("    - Label: \"%s\""), *GetTagAsString(Label));

@@ -633,11 +633,12 @@ bool UUSDImporterWidget::EditSkeletalMeshBones(
 void UUSDImporterWidget::CopyCollisionToPhysicsAsset(
     UPhysicsAsset* PhysicsAssetToEdit, UStaticMesh* StaticMesh)
 {
-  UE_LOG(LogCarlaTools, Log, TEXT("Num bodysetups %d"), PhysicsAssetToEdit->SkeletalBodySetups.Num());
+  UE_LOG(LogCarlaTools, Log, TEXT("Num bodysetups %d"), PhysicsAssetToEdit->SkeletalBodySetups.Num());//这行代码输出PhysicsAssetToEdit（要编辑的物理资产）中的骨骼身体设置（SkeletalBodySetups）的数量。这对于调试和了解物理资产的结构很有用。
   UBodySetup* BodySetupPhysicsAsset = 
       PhysicsAssetToEdit->SkeletalBodySetups[
-          PhysicsAssetToEdit->FindBodyIndex(FName("Vehicle_Base"))];
+          PhysicsAssetToEdit->FindBodyIndex(FName("Vehicle_Base"))];//从PhysicsAssetToEdit中查找名为"Vehicle_Base"的骨骼身体设置。FindBodyIndex函数返回一个索引，该索引用于从SkeletalBodySetups数组中检索相应的UBodySetup对象。
   UBodySetup* BodySetupStaticMesh = StaticMesh->BodySetup;
+  //将StaticMesh的聚合几何体（AggGeom）复制到PhysicsAssetToEdit中名为"Vehicle_Base"的骨骼身体设置中。聚合几何体是碰撞体的表示，它可能包含多个简单的几何形状（如盒子、球体等），这些形状被组合起来以近似表示复杂的物体形状。
   BodySetupPhysicsAsset->AggGeom = BodySetupStaticMesh->AggGeom;
 
 }
